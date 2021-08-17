@@ -20,10 +20,9 @@ pipeline {
 
     stage('Push Docker Image') {
       steps {
-        sh '''#docker login
-#docker tag node-hello:$BUILD_ID foondel/node-hello:$BUILD_ID
-#&& docker push foondel/node-hello:$BUILD_ID
-'''
+        withDockerRegistry(credencialsId: 'docker-hub-creds' , url: 'https://registry.hub.docker.com') {
+        sh '''docker tag node-hello:$BUILD_ID foondel/node-hello:$BUILD_ID && docker push foondel/node-hello:$BUILD_ID'''
+        }
       }
     }
 
